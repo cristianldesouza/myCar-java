@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MyCar</string>
+    <string name="refuelling">Abastecimentos</string>
+    <string name="km_l">km/h</string>
+    <string name="liters">Litros abastecidos</string>
+    <string name="brand">Posto</string>
+    <string name="date">Selecione a data</string>
+    <string name="delete">EXCLUIR</string>
+    <string name="save">SALVAR</string>
+    <string name="km">Quilometragem atual do carro</string>
+</resources>

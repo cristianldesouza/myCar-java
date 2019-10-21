@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="brandOptions">
+        <item>Ipiranga</item>
+        <item>Shell</item>
+        <item>Texaco</item>
+        <item>Petrobras</item>
+        <item>Outro</item>
+    </string-array>
+</resources>
