@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -69,26 +70,46 @@ public class FormActivity  extends AppCompatActivity {
 
     }
 
-    public void salvar(View v){
+    public void save(View v){
 
         fuelObject.setCurrentKm(Double.parseDouble(etKm.getText().toString()));
         fuelObject.setLitersFuelled(Double.parseDouble(etLiters.getText().toString()));
         fuelObject.setBrand( spBrand.getSelectedItem().toString() );
 
-        if(fuelId == null) {
-            FuelDao.getInstance().addItem(fuelObject);
-            setResult(201);
-        }else{
-            int objectPosition = FuelDao.getInstance().updateItem(fuelObject);
-            Intent closeFormIntention = new Intent();
-            closeFormIntention.putExtra("objectPosition", objectPosition);
-            setResult(200, closeFormIntention);
-        }
-        finish();
+        if (FuelDao.getInstance().getList().size() >= 1) {
+            Fuel lastFuel = FuelDao.getInstance().getList().get(FuelDao.getInstance().getList().size() - 1 );
 
+            if (lastFuel.getCurrentKm() > fuelObject.getCurrentKm()) {
+                setResult(400);
+            } else {
+                if(fuelId == null) {
+                    FuelDao.getInstance().addItem(fuelObject);
+                    setResult(201);
+                }else{
+                    int objectPosition = FuelDao.getInstance().updateItem(fuelObject);
+                    Intent closeFormIntention = new Intent();
+                    closeFormIntention.putExtra("objectPosition", objectPosition);
+                    setResult(200, closeFormIntention);
+                }
+            }
+        } else {
+            if(fuelId == null) {
+                FuelDao.getInstance().addItem(fuelObject);
+                setResult(201);
+            }else{
+                int objectPosition = FuelDao.getInstance().updateItem(fuelObject);
+                Intent closeFormIntention = new Intent();
+                closeFormIntention.putExtra("objectPosition", objectPosition);
+                setResult(200, closeFormIntention);
+            }
+        }
+
+
+
+        finish();
     }
 
-    public void selecionarData(View v){
+    public void selectData(View v){
         Calendar datePatern = fuelObject.getDate();;
         if(datePatern == null){
             datePatern = Calendar.getInstance();

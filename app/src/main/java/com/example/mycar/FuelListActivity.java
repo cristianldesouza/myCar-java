@@ -52,8 +52,10 @@ public class FuelListActivity extends AppCompatActivity{
                 rvFuel.smoothScrollToPosition( position );
             }else if (resultCode == 202){
                 Toast.makeText(this, "Compromisso excluído com sucesso", Toast.LENGTH_LONG).show();
-                int position = data.getIntExtra("posicaoDoObjetoExcluido", -1);
+                int position = data.getIntExtra("objectPosition", -1);
                 adapter.notifyItemRemoved( position );
+            } else if (resultCode == 400) {
+                Toast.makeText(this, "A quilometragem não deve ser menor que a última inserida.", Toast.LENGTH_LONG).show();
             }
         }
     }

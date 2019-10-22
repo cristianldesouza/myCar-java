@@ -51,14 +51,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/date"
-            android:onClick="selecionarData"
+            android:onClick="selectData"
             android:focusable="false"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnDelete"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
+        android:layout_width="383dp"
+        android:layout_height="55dp"
         android:layout_marginTop="8dp"
         android:background="@color/dangerColor"
         android:onClick="delete"
@@ -71,10 +71,10 @@
 
     <Button
         android:id="@+id/btnSave"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
+        android:layout_width="392dp"
+        android:layout_height="55dp"
         android:layout_marginTop="8dp"
-        android:onClick="salvar"
+        android:onClick="save"
         android:text="@string/save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
