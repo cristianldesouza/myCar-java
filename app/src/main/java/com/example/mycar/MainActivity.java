@@ -25,12 +25,8 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         TextView tvCurrentAutonomy = findViewById(R.id.currentAutonomy);
-
-        if (this.getAutonomy() == "noFuel") {
-            tvCurrentAutonomy.setText("Abasteça!");
-        } else {
-            tvCurrentAutonomy.setText(this.getAutonomy());
-        }
+        tvCurrentAutonomy.setText(this.getAutonomy());
+        
     }
 
     public void btnClicked(View v) {
@@ -44,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Fuel> fuels = FuelDao.getInstance().getList();
 
         if (fuels.size() <= 1) {
-            return "noFuel";
+            return "Abasteça!";
         } else {
             double firstKm = fuels.get(fuels.size() - 1).getCurrentKm();
             double lastKm = fuels.get(0).getCurrentKm();
