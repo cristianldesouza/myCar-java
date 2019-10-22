@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class FuelDao {
     private ArrayList<Fuel> dataBase;
 
     public ArrayList<Fuel> getList(){
         Realm realm = Realm.getDefaultInstance();
-        RealmResults lista = realm.where(Fuel.class).findAll();
+        RealmResults lista = realm.where(Fuel.class).findAll().sort("currentKm", Sort.DESCENDING);
         dataBase.clear();
         dataBase.addAll(realm.copyFromRealm(lista));
         return dataBase;

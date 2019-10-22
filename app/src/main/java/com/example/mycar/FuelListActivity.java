@@ -46,12 +46,10 @@ public class FuelListActivity extends AppCompatActivity{
                 adapter.notifyItemChanged( position );
                 rvFuel.smoothScrollToPosition( position );
             }else if (resultCode == 201){
-                Toast.makeText(this, "Compromisso inserido com sucesso", Toast.LENGTH_LONG).show();
-                int position = FuelDao.getInstance().getList().size()-1;
-                adapter.notifyItemInserted( position );
-                rvFuel.smoothScrollToPosition( position );
+                Toast.makeText(this, "Abastecimento inserido com sucesso", Toast.LENGTH_LONG).show();
+                adapter.notifyItemInserted( 0 );
             }else if (resultCode == 202){
-                Toast.makeText(this, "Compromisso excluído com sucesso", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Abastecimento excluído com sucesso", Toast.LENGTH_LONG).show();
                 int position = data.getIntExtra("objectPosition", -1);
                 adapter.notifyItemRemoved( position );
             } else if (resultCode == 400) {

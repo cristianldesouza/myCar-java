@@ -26,10 +26,10 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         TextView tvCurrentAutonomy = findViewById(R.id.currentAutonomy);
 
-        if (this.getAutonomy() == -1) {
+        if (this.getAutonomy() == "noFuel") {
             tvCurrentAutonomy.setText("Abasteça!");
         } else {
-            tvCurrentAutonomy.setText(this.getAutonomy() + "");
+            tvCurrentAutonomy.setText(this.getAutonomy());
         }
     }
 
@@ -40,29 +40,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private double getAutonomy() {
+    private String getAutonomy() {
         ArrayList<Fuel> fuels = FuelDao.getInstance().getList();
 
         if (fuels.size() <= 1) {
-            return -1;
+            return "noFuel";
         } else {
-            double firstKm = fuels.get(0).getCurrentKm();
-            double lastKm = fuels.get(fuels.size()-1).getCurrentKm();
+            double firstKm = fuels.get(fuels.size() - 1).getCurrentKm();
+            double lastKm = fuels.get(0).getCurrentKm();
 
             double totalKm = lastKm - firstKm;
 
             double litersFuelled = 0;
 
 
-            for (int i = 0; i < fuels.size() - 1; i++) {
+            for (int i = 1; i < fuels.size(); i++) {
                 litersFuelled = litersFuelled + fuels.get(i).getLitersFuelled();
             }
 
-            String result = (totalKm/litersFuelled) + "";
+            Double result = (totalKm/litersFuelled);
 
-            int ponto = result.indexOf(".");
+            DecimalFormat df = new DecimalFormat("0.##");
 
-            return (Double.parseDouble(result.substring(0, ponto + 3)));
+            String formatedResult = df.format(result);
+
+            return (formatedResult);
         }
 
     }

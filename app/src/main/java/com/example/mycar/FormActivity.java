@@ -77,7 +77,7 @@ public class FormActivity  extends AppCompatActivity {
         fuelObject.setBrand( spBrand.getSelectedItem().toString() );
 
         if (FuelDao.getInstance().getList().size() >= 1) {
-            Fuel lastFuel = FuelDao.getInstance().getList().get(FuelDao.getInstance().getList().size() - 1 );
+            Fuel lastFuel = FuelDao.getInstance().getList().get(0);
 
             if (lastFuel.getCurrentKm() > fuelObject.getCurrentKm()) {
                 setResult(400);
@@ -103,8 +103,6 @@ public class FormActivity  extends AppCompatActivity {
                 setResult(200, closeFormIntention);
             }
         }
-
-
 
         finish();
     }
