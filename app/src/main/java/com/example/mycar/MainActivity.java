@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         TextView tvCurrentAutonomy = findViewById(R.id.currentAutonomy);
         tvCurrentAutonomy.setText(this.getAutonomy());
-        
+
     }
 
     public void btnClicked(View v) {
