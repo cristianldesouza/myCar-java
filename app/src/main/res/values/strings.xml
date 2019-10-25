@@ -8,4 +8,5 @@
     <string name="delete">EXCLUIR</string>
     <string name="save">SALVAR</string>
     <string name="km">Quilometragem atual do carro</string>
+    <string name="cam_ra">Câmera</string>
 </resources>

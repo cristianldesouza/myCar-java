@@ -1,22 +1,34 @@
 package com.example.mycar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.mycar.Model.Fuel;
 import com.example.mycar.Model.FuelDao;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Calendar;
 
@@ -49,10 +61,10 @@ public class FormActivity  extends AppCompatActivity {
         if(fuelId == null){
             fuelObject = new Fuel();
 
-            Button btnDelete = findViewById(R.id.btnDelete);
-            btnDelete.setVisibility( View.INVISIBLE );
         }else{
             fuelObject = FuelDao.getInstance().getObjectById(fuelId);
+
+            updatePictureOnScreen();
 
             etKm.setText( String.valueOf(fuelObject.getCurrentKm()) );
             etLiters.setText( String.valueOf(fuelObject.getLitersFuelled()) );
@@ -70,7 +82,7 @@ public class FormActivity  extends AppCompatActivity {
 
     }
 
-    public void save(View v){
+    public void save(){
 
         fuelObject.setCurrentKm(Double.parseDouble(etKm.getText().toString()));
         fuelObject.setLitersFuelled(Double.parseDouble(etLiters.getText().toString()));
@@ -134,7 +146,7 @@ public class FormActivity  extends AppCompatActivity {
         dateDialog.show();
     }
 
-    public void delete(View v){
+    public void delete(){
         new AlertDialog.Builder(this)
                 .setTitle("Você tem certeza?")
                 .setMessage("Você quer mesmo excluir?")
@@ -152,4 +164,81 @@ public class FormActivity  extends AppCompatActivity {
                 .setNegativeButton("Cancelar", null)
                 .show();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate( R.menu.menu_form, menu );
+
+        if(fuelId == null){
+            menu.removeItem(R.id.menuDelete);
+        }
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.menuSave){
+            save();
+        }
+        if (item.getItemId() == R.id.menuDelete){
+            delete();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    String picturePath = null;
+
+    private File createPictureFile() throws IOException {
+
+        String pictureName = java.util.UUID.randomUUID().toString();
+        File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File picture = File.createTempFile(pictureName,".jpg", path);
+
+        picturePath = picture.getAbsolutePath();
+        return picture;
+    }
+
+    public void openCam(View v){
+
+        Intent camIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        File pictureFile = null;
+        try {
+            pictureFile = createPictureFile();
+        } catch (IOException ex) {
+            Toast.makeText(this, "Não foi possível criar arquivo para foto", Toast.LENGTH_LONG).show();
+        }
+        if (pictureFile != null) {
+            Uri fotoURI = FileProvider.getUriForFile(this,
+                    "com.example.mycar.fileprovider",
+                    pictureFile);
+            camIntent.putExtra(MediaStore.EXTRA_OUTPUT, fotoURI);
+            startActivityForResult(camIntent, 1);
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1){
+            if(resultCode == RESULT_OK){
+                fuelObject.setPicturePath( picturePath );
+                updatePictureOnScreen();
+
+            }
+        }
+    }
+
+    private void updatePictureOnScreen(){
+        if(fuelObject.getPicturePath() != null){
+            ImageView ivPicture = findViewById(R.id.ivPicture);
+            ivPicture.setImageURI(Uri.parse(fuelObject.getPicturePath()));
+        }
+    }
+
 }

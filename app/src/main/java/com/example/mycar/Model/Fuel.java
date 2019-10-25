@@ -14,6 +14,7 @@ public class Fuel extends RealmObject{
     private double currentKm;
     private double litersFuelled;
     private String brand;
+    private String picturePath;
 
     private Date pureDate;
 
@@ -63,6 +64,14 @@ public class Fuel extends RealmObject{
     public void setDate(Calendar date) {
         this.date = date;
         this.pureDate = date.getTime();
+    }
+
+    public String getPicturePath() {
+        return picturePath;
+    }
+
+    public void setPicturePath(String picturePath) {
+        this.picturePath = picturePath;
     }
 }
 
