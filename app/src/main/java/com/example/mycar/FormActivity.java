@@ -92,7 +92,8 @@ public class FormActivity  extends AppCompatActivity {
             Fuel lastFuel = FuelDao.getInstance().getList().get(0);
 
             if (lastFuel.getCurrentKm() > fuelObject.getCurrentKm()) {
-                setResult(400);
+                Toast.makeText(this, "A quilometragem não deve ser menor que a última inserida.", Toast.LENGTH_LONG).show();
+                return;
             } else {
                 if(fuelId == null) {
                     FuelDao.getInstance().addItem(fuelObject);
