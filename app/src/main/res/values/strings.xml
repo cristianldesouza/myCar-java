@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MyCar</string>
     <string name="refuelling">Abastecimentos</string>
-    <string name="km_l">km/h</string>
+    <string name="km_l">km/l</string>
     <string name="liters">Litros abastecidos</string>
     <string name="brand">Posto</string>
     <string name="date">Selecione a data</string>
